@@ -14,34 +14,34 @@ const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
 `;
 
-class ItemsList extends Component {
+class BooksList extends Component {
 
     componentDidMount() {
-        console.log("ItemsList: props");
+        console.log("BooksList: props");
         console.log(this.props);
-        // if (((this.props.itemData || {}).items || []).length) return;
+        // if (((this.props.bookData || {}).books || []).length) return;
 
-        this.props.fetchAllItems()
+        this.props.fetchAllBooks()
     }
 
-    handleRemoveItem = data => {
-        const itemId = data;
+    handleRemoveBook = data => {
+        const bookId = data;
 
-        this.props.deleteSingleItem(itemId)
+        this.props.deleteSingleBook(bookId)
             .then(resp => {
-                console.log("handleRemoveItem: resp");
+                console.log("handleRemoveBook: resp");
                 console.log(resp);
-                this.props.fetchAllItems();
+                this.props.fetchAllBooks();
             });
     }
 
     render() {
         const {
-            items,
+            books,
             loaded,
             loading
-        } = this.props.itemData || {};
-        console.log(items);
+        } = this.props.bookData || {};
+        console.log(books);
 
         const columns = [
             {
@@ -50,7 +50,7 @@ class ItemsList extends Component {
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-item-id={props.original._id}>
+                        <span data-book-id={props.original._id}>
                             {props.original._id}
                         </span>
                     )
@@ -121,9 +121,9 @@ class ItemsList extends Component {
                     return (
                         <Link
                             data-update-id={props.original._id}
-                            to={`/item/update/${props.original._id}`}
+                            to={`/book/update/${props.original._id}`}
                         >
-                            Update Item
+                            Update Book
                         </Link>
                     );
                 },
@@ -136,7 +136,7 @@ class ItemsList extends Component {
                         <span data-delete-id={props.original._id}>
                             <DeleteButton
                                 id={props.original._id}
-                                onDelete={this.handleRemoveItem}
+                                onDelete={this.handleRemoveBook}
                             />
                         </span>
                     );
@@ -147,10 +147,10 @@ class ItemsList extends Component {
         return (
             <Wrapper>
                 {(
-                    (items || []).length > 0 // defeats the purpose of using `isLoading` prop?
+                    (books || []).length > 0 // defeats the purpose of using `isLoading` prop?
                 ) ? (
                         <ReactTable
-                            data={items}
+                            data={books}
                             columns={columns}
                             isLoading={(loaded && loading)}
                             defaultPageSize={10}
@@ -158,7 +158,7 @@ class ItemsList extends Component {
                             minRows={10}
                         />
                     ) : (
-                        `No items to render... :(`
+                        `No books to render... :(`
                     )}
             </Wrapper>
         );
@@ -174,4 +174,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);
+export default connect(mapStateToProps, mapDispatchToProps)(BooksList);

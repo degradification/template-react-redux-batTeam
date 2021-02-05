@@ -1,11 +1,11 @@
-import ItemInsert from './ItemInsert';
-import ItemsList from './ItemsList';
-import ItemsTable from './ItemsTable';
-import ItemUpdate from './ItemUpdate';
+import BookInsert from './BookInsert';
+import BooksList from './BooksList';
+import BooksTable from './BooksTable';
+import BookUpdate from './BookUpdate';
 
 export {
-    ItemInsert,
-    ItemsList,
-    ItemsTable,
-    ItemUpdate
+    BookInsert,
+    BooksList,
+    BooksTable,
+    BookUpdate
 };

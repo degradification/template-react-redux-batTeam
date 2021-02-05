@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchSingleItem, updateSingleItem } from '../actions';
+import { fetchSingleBook, updateSingleBook } from '../actions';
 import { shared } from '../constants';
 
 import styled from 'styled-components';
@@ -58,7 +58,7 @@ const CancelButton = styled.a.attrs({
   margin: 15px 15px 15px 5px;
 `;
 
-class ItemUpdate extends Component {
+class BookUpdate extends Component {
     constructor(props) {
         /**
          * Currently deprecated and now known as the "legacy context":
@@ -79,10 +79,10 @@ class ItemUpdate extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchSingleItem(this.props.itemId)
+        this.props.fetchSingleBook(this.props.bookId)
             .then(resp => {
-                const { item } = resp.data;
-                this.setState({ ...item });
+                const { book } = resp.data;
+                this.setState({ ...book });
             });
     }
 
@@ -123,7 +123,7 @@ class ItemUpdate extends Component {
         this.setState({ content });
     }
 
-    handleUpdateItem = event => {
+    handleUpdateBook = event => {
         const {
             _id,
             name,
@@ -132,29 +132,29 @@ class ItemUpdate extends Component {
             priority,
             content
         } = this.state;
-        const item = { _id, name, daysOfWeek, timeframeNote, priority, content };
+        const book = { _id, name, daysOfWeek, timeframeNote, priority, content };
 
-        return this.props.updateSingleItem(item)
+        return this.props.updateSingleBook(book)
             .then(resp => {
-                console.log("handleUpdateItem: resp");
+                console.log("handleUpdateBook: resp");
                 console.log(resp);
                 if (typeof resp === "object" && (resp.status < 300 && resp.status >= 200)) {
-                    window.alert('Item updated successfully');
+                    window.alert('Book updated successfully');
                     return true;
                 } else {
                     throw resp;
                 }
             })
             .catch(err => {
-                window.alert(`There was an error updating the item... :(`);
-                console.error("handleUpdateItem: err");
+                window.alert(`There was an error updating the book... :(`);
+                console.error("handleUpdateBook: err");
                 console.error(err);
             });
     }
 
-    confirmUpdateItem = event => {
-        if (window.confirm(`Are you sure you want to update this item? ${this.state._id}`)) {
-            return this.handleUpdateItem(event);
+    confirmUpdateBook = event => {
+        if (window.confirm(`Are you sure you want to update this book? ${this.state._id}`)) {
+            return this.handleUpdateBook(event);
         }
     }
 
@@ -172,7 +172,7 @@ class ItemUpdate extends Component {
 
         return _id && (
             <Wrapper>
-                <Title>Create Item</Title>
+                <Title>Create Book</Title>
 
                 <Label>Name: </Label>
                 <InputText
@@ -231,8 +231,8 @@ class ItemUpdate extends Component {
                     onChange={this.handleChangeInputContent}
                 />
 
-                <Button onClick={this.confirmUpdateItem}>Update Item</Button>
-                <CancelButton href={'/items/list'}>Cancel</CancelButton>
+                <Button onClick={this.confirmUpdateBook}>Update Book</Button>
+                <CancelButton href={'/books/list'}>Cancel</CancelButton>
             </Wrapper>
         );
     }
@@ -241,10 +241,10 @@ class ItemUpdate extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         ...state,
-        itemId: ownProps.match.params.id,
+        bookId: ownProps.match.params.id,
     };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchSingleItem, updateSingleItem }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchSingleBook, updateSingleBook }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(BookUpdate);

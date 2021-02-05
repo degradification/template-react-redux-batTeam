@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { insertSingleItem } from '../actions';
+import { insertSingleBook } from '../actions';
 import { shared } from '../constants';
 
 import styled from 'styled-components';
@@ -73,7 +73,7 @@ const CancelButton = styled.a.attrs({
   margin: 15px 15px 15px 5px;
 `;
 
-class ItemInsert extends Component {
+class BookInsert extends Component {
     constructor(props) {
         /**
          * Currently deprecated and now known as the "legacy context":
@@ -128,7 +128,7 @@ class ItemInsert extends Component {
         this.setState({ content });
     }
 
-    handleInsertItem = event => {
+    handleInsertBook = event => {
         event.preventDefault();
 
         const {
@@ -138,14 +138,14 @@ class ItemInsert extends Component {
             priority,
             content
         } = this.state;
-        const item = { name, daysOfWeek, timeframeNote, priority, content };
+        const book = { name, daysOfWeek, timeframeNote, priority, content };
 
-        this.props.insertSingleItem(item)
+        this.props.insertSingleBook(book)
             .then(resp => {
-                console.log("handleInsertItem: resp");
+                console.log("handleInsertBook: resp");
                 console.log(resp);
                 if (typeof resp === "object" && (resp.status < 300 && resp.status >= 200)) {
-                    window.alert('Item inserted successfully');
+                    window.alert('Book inserted successfully');
                     this.setState({
                         name: '',
                         daysOfWeek: {},
@@ -159,8 +159,8 @@ class ItemInsert extends Component {
             })
             .catch(err => {
                 // TODO: pass error object correctly so that things like validation errors can be displayed to user
-                window.alert(`There was an error creating the item... :(`);
-                console.log("handleInsertItem: err");
+                window.alert(`There was an error creating the book... :(`);
+                console.log("handleInsertBook: err");
                 console.log(err);
             })
     }
@@ -178,7 +178,7 @@ class ItemInsert extends Component {
 
         return (
             <Wrapper>
-                <Title>Create Item</Title>
+                <Title>Create Book</Title>
 
                 <Label>Name: </Label>
                 <InputText
@@ -235,13 +235,13 @@ class ItemInsert extends Component {
                     onChange={this.handleChangeInputContent}
                 />
 
-                <Button onClick={this.handleInsertItem}>Add Item</Button>
-                <CancelButton href={'/items/list'}>Cancel</CancelButton>
+                <Button onClick={this.handleInsertBook}>Add Book</Button>
+                <CancelButton href={'/books/list'}>Cancel</CancelButton>
             </Wrapper>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ insertSingleItem }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ insertSingleBook }, dispatch);
 
-export default connect(null, mapDispatchToProps)(ItemInsert);
+export default connect(null, mapDispatchToProps)(BookInsert);

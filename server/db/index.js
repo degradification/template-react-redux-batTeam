@@ -9,5 +9,3 @@ mongoose
 const db = mongoose.connection;
 
 module.exports = db;
-
-// test commit G

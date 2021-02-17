@@ -8,7 +8,7 @@ const LOG_IN = '/login';
 const BOOKS = '/books';
 const BOOK = '/book/:id';
 const BOOK_INSERT = '/book/create';
-const BOOK_UPDATE = '/book/update/:id';
+const BOOK_UPDATE = '/book/update/id';
 
 export const routes = {
     HOME,

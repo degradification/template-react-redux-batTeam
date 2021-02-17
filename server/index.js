@@ -22,5 +22,5 @@ app.get('/', (req, res) => {
 app.use('/api', bookRouter);
 
 app.listen(apiPort, () => {
-    console.log(`[Hack.Diversity React Template] - Server running on port ${apiPort}`);
+    console.log(` Server running on port ${apiPort}`);
 });

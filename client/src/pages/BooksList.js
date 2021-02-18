@@ -19,7 +19,7 @@ class BooksList extends Component {
     componentDidMount() {
         console.log("BooksList: props");
         console.log(this.props);
-        // if (((this.props.bookData || {}).books || []).length) return;
+        if (((this.props.bookData || {}).books || []).length) return;
 
         this.props.fetchAllBooks()
     }
@@ -57,16 +57,75 @@ class BooksList extends Component {
                 }
             },
             {
-                Header: 'Name',
-                accessor: 'name',
+                Header: 'ISBN',
+                accessor: 'isbn',
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-name={props.original.name}>
+                        <span data-isbn={props.original.isbn}>
                             {props.value}
                         </span>
                     );
                 }
+            },
+            {
+                Header: 'TITLE',
+                accessor: 'title',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-title={props.original.title}>
+                            {props.value}
+                        </span>
+                    );
+                }
+            },
+            {
+                Header: 'AUTHOR',
+                accessor: 'author',
+                Cell: props => {
+                    return (
+                        <span data-author={props.original.author}>
+                            {props.value || "-"}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: 'PUBLICATION YEAR',
+                accessor: 'publication_year',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-publication={props.original.publication_year}>
+                            {props.value}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: 'COPIES',
+                accessor: 'copies',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-copies={props.original.copies}>
+                            {props.value}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: 'AVAILABLE',
+                accessor: 'available',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-available={props.original.available}>
+                            {props.value}
+                        </span>
+                    );
+                },
             },
             {
                 Header: 'Day(s)',
@@ -90,29 +149,6 @@ class BooksList extends Component {
                         </span>
                     );
                 }
-            },
-            {
-                Header: 'Timeframe',
-                accessor: 'timeframeNote',
-                Cell: props => {
-                    return (
-                        <span data-timeframe={props.original.timeframeNote}>
-                            {props.value || "-"}
-                        </span>
-                    );
-                },
-            },
-            {
-                Header: 'Priority',
-                accessor: 'priority',
-                filterable: true,
-                Cell: props => {
-                    return (
-                        <span data-priority={props.original.priority}>
-                            {props.value}
-                        </span>
-                    );
-                },
             },
             {
                 Header: '',
@@ -147,10 +183,10 @@ class BooksList extends Component {
         return (
             <Wrapper>
                 {(
-                    (books || []).length > 0 // defeats the purpose of using `isLoading` prop?
+                    (books || []).length < 0 // defeats the purpose of using `isLoading` prop?
                 ) ? (
                         <ReactTable
-                            data={this.props}
+                            data={books}
                             columns={columns}
                             isLoading={(loaded && loading)}
                             defaultPageSize={10}

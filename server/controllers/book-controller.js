@@ -2,7 +2,7 @@
 const Book = require('../models/book-model');
 
 getBooks = async (req, res) => {
-    await Book.find({}, (err, books) => {
+     Book.find({}, (err, books) => {
         if (err) {
             console.error(`[Hack.Diversity React Template] - 400 in 'getBooks': ${err}`);
             return res
@@ -41,7 +41,7 @@ getBooks = async (req, res) => {
 };
 
 getBookById = async (req, res) => {
-    await Book.find({ _id: req.params.id }, (err, books) => {
+     Book.find({ _id: req.params.id }, (err, books) => {
         if (err) {
             console.error(`[Hack.Diversity React Template] - 400 in 'getBookById': ${err}`);
             throw res
@@ -151,11 +151,13 @@ updateBook = (req, res) => {
 
     const bookForUpdate = {
         _id: req.params.id,
-        name: body.name,
-        daysOfWeek: body.daysOfWeek,
-        timeframeNote: body.timeframeNote,
-        priority: body.priority,
-        content: body.content,
+        title: body.title,
+        author: body.author,
+        publication_year: body.publication_year,
+        publisher: body.publisher,
+        copies: body.copies,
+        image_url_m: body.image_url_m,
+        available: req.body.available,
     };
 
     // console.log('----------------------- updateBook: res -----------------------');

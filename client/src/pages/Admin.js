@@ -64,7 +64,7 @@ class Admin extends Component{
       </div>
 
         <AddBtn href={'/book/create'} block>Add A New Book</AddBtn>
-        <UpdateBtn href={'/book/update'} block>Update An Existing Book</UpdateBtn>
+        <UpdateBtn href={'/books'} block>Update An Existing Book</UpdateBtn>
         <CheckoutBtn href={'/books/list'} block>Checkout A Book</CheckoutBtn>
       </>
   )};

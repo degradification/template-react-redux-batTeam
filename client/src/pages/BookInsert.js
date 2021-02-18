@@ -69,6 +69,7 @@ const CancelButton = styled.a.attrs({
 
 class BookInsert extends Component {
     constructor(props) {
+
         /**
          * Currently deprecated and now known as the "legacy context":
          * - https://reactjs.org/docs/legacy-context.html
@@ -84,7 +85,7 @@ class BookInsert extends Component {
             author: '',
             publication_year: '',
             copies: 0,
-            cover: '', /*image_url_m*/
+            image_url_m: '', /*image_url_m*/
             publisher:'',
             available:'',
         };
@@ -118,9 +119,9 @@ class BookInsert extends Component {
         this.setState({ copies });
     }
 
-    handleChangeInputCover = async event => {
-        const cover = event.target.value;
-        this.setState({ cover });
+    handleChangeInputImage_url_m = async event => {
+        const image_url_m = event.target.value;
+        this.setState({ image_url_m });
     }
 
     handleChangeInputPublisher = async event => {
@@ -142,7 +143,7 @@ class BookInsert extends Component {
           author,
           publication_year,
           copies,
-          cover,
+          image_url_m,
           publisher,
           available
         } = this.state;
@@ -153,7 +154,7 @@ class BookInsert extends Component {
         author,
         publication_year,
         copies,
-        cover,
+        image_url_m,
         publisher,
         available
       };
@@ -191,9 +192,9 @@ class BookInsert extends Component {
           author,
           publication_year,
           copies,
-          cover,
+          image_url_m,
           publisher,
-          available
+          available,
         } = this.state;
 
         return (
@@ -258,8 +259,8 @@ class BookInsert extends Component {
                 <Label>Cover: </Label>
                   <InputText
                     type="file"
-                    value={cover}
-                    onChange={this.props.handleChangeInputCover}
+                    value={image_url_m}
+                    onChange={this.props.handleChangeInputImage_url_m}
                 />
 
                 <Button onClick={this.handleInsertBook}>Add Book</Button>

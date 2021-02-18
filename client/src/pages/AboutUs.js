@@ -1,5 +1,4 @@
 import React from 'react'
-import HoursLocation from '../components/HoursLocation';
 
 const aboutContainer={
   justifyContent:'flex-start',

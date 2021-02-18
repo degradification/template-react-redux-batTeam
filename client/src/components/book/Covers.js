@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
@@ -16,33 +16,30 @@ const cardStyle={
 }
 
 
-const Covers = () =>{
-
-  const {covers} = useContext(WithData);
-
-  if (!covers.length){
-    return <h1>No Books Available </h1>
-  }
-
+const Covers = ({covers}) =>{
   return (
     <div className="container-fluid row" style={cardStyle}>
-      {covers.map(({image: image,
+      {covers.map((
+          coverImageUrlMedium,
           isbn, title, author, copies, publication, publisher, available
-        }) => (
+        ) => {
+        return(
           <div className="text-left col-4 col-lg-2">
           <Card.Img variant="top"
             style={{ minHeight:"200px"}}
-            src={image} alt="Cover Image" key={image}>
+            src={covers.coverImageUrlMedium}
+            alt="Cover Image" key={covers.coverImageUrlMedium}>
           </Card.Img>
-          <Card.Title className="leftPad" key={title}> {title} </Card.Title>
-          <Card.Subtitle className="small leftPad" keys={author}> {author} </Card.Subtitle>
-          <Card.Text className="small leftPad" key={publication}> {publication} </Card.Text>
-          <Card.Text className="small leftPad" key={copies}> {copies} </Card.Text>
-          <Card.Text className="small leftPad" key={isbn}> {isbn} </Card.Text>
+          <Card.Title className="leftPad" key={covers.title}> {covers} </Card.Title>
+          <Card.Subtitle className="small leftPad" key={covers.author}> {covers} </Card.Subtitle>
+          <Card.Text className="small leftPad" key={covers.publication_year}> {covers}</Card.Text>
+          <Card.Text className="small leftPad" key={covers.copies}> {covers}</Card.Text>
+          <Card.Text className="small leftPad" key={covers.isbn}>{covers}</Card.Text>
           </div>
-        ))}
+        );
+        })}
       </div>
-)
-}
+    );
+};
 
-export default Covers;
+export default WithData(Covers);

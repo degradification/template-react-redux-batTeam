@@ -25,4 +25,4 @@ Logo.propTypes = {
     logoStyles: PropTypes.object,
 };
 
-export default Logo;
+export default Logo; 

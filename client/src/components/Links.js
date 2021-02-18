@@ -26,7 +26,7 @@ const List = styled.div.attrs({
     }
 `;
 
-const Book = styled.div.attrs({
+const Item = styled.div.attrs({
     // className: 'collapse navbar-collapse',
 })`
     @media screen and (max-width: 420px) {
@@ -56,30 +56,36 @@ class Links extends Component {
                     >
                         Home
                     </Link>
+                    <Link
+                        to="/admin"
+                        className="navbar-brand"
+                        style={homeStyles}
+                    >
+                        Admin
+                    </Link>
+                    <Link
+                        to="/about"
+                        className="navbar-brand"
+                        style={homeStyles}
+                    >
+                        About Us
+                    </Link>
                 </HomeWrapper>
                 <Collapse>
                     <List>
-                        <Book>
+                        <Item>
                             <Link
                                 to="/books"
                                 className="nav-link"
                             >
-                                Books
+                                Book List
                             </Link>
-                        </Book>
-                        <Book>
-                            <Link
-                                to="/book/create"
-                                className="nav-link"
-                            >
-                                Create Book
-                            </Link>
-                        </Book>
-                        <Book>
+                        </Item>
+                        <Item>
                             <Link to="/books/react-table-v6" className="nav-link">
                                 Books (react-table-v6)
                             </Link>
-                        </Book>
+                        </Item>
                     </List>
                 </Collapse>
             </React.Fragment>

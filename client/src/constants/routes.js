@@ -1,6 +1,7 @@
 // Public routes
 const HOME = '/';
 const ABOUT = '/about';
+const ADMIN = '/admin';
 const SIGN_UP = '/signup';
 const LOG_IN = '/login';
 
@@ -8,10 +9,11 @@ const LOG_IN = '/login';
 const BOOKS = '/books';
 const BOOK = '/book/:id';
 const BOOK_INSERT = '/book/create';
-const BOOK_UPDATE = '/book/update/id';
+const BOOK_UPDATE = '/book/update/:id';
 
 export const routes = {
     HOME,
+    ADMIN,
     ABOUT,
     SIGN_UP,
     LOG_IN,

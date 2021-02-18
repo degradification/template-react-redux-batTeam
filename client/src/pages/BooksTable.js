@@ -17,14 +17,13 @@ const Wrapper = styled.div`
 class BooksList extends Component {
 
     componentDidMount() {
-        console.log("BooksList: props");
+        console.log("ItemsList: props");
         console.log(this.props);
-        // if (((this.props.bookData || {}).books || []).length) return;
-
+        if (((this.props.bookData || {}).books || []).length) return;
         this.props.fetchAllBooks()
     }
 
-    handleRemoveBook = data => {
+    handleRemoveItem = data => {
         const bookId = data;
 
         this.props.deleteSingleBook(bookId)
@@ -50,70 +49,83 @@ class BooksList extends Component {
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-book-id={props.original._id}>
+                        <span data-item-id={props.original._id}>
                             {props.original._id}
                         </span>
                     )
                 }
             },
             {
-                Header: 'Name',
-                accessor: 'name',
+                Header: 'ISBN',
+                accessor: 'isbn',
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-name={props.original.name}>
+                        <span data-isbn={props.original.isbn}>
                             {props.value}
                         </span>
                     );
                 }
             },
             {
-                Header: 'Day(s)',
-                accessor: 'daysOfWeek',
+                Header: 'TITLE',
+                accessor: 'title',
                 filterable: true,
                 Cell: props => {
-                    const { daysOfWeek } = props.original;
-                    let daysToDisplay = "";
-                    if (daysOfWeek && typeof daysOfWeek === "object") {
-                        for (const day in daysOfWeek) {
-                            daysToDisplay = daysToDisplay === "" ? daysOfWeek[day] : `${daysToDisplay}, ${daysOfWeek[day]}`;
-                        }
-
-                    }
                     return (
-                        <span
-                            data-daysofweek={daysOfWeek && JSON.stringify(daysOfWeek)}
-                            data-daysofweek-by-id={props.original._id}
-                        >
-                            {daysToDisplay || "-"}
+                        <span data-title={props.original.title}>
+                            {props.value}
                         </span>
                     );
                 }
             },
             {
-                Header: 'Timeframe',
-                accessor: 'timeframeNote',
+                Header: 'AUTHOR',
+                accessor: 'author',
                 Cell: props => {
                     return (
-                        <span data-timeframe={props.original.timeframeNote}>
-                            {props.value || "-"}
-                        </span>
-                    );
-                },
-            },
-            {
-                Header: 'Priority',
-                accessor: 'priority',
-                filterable: true,
-                Cell: props => {
-                    return (
-                        <span data-priority={props.original.priority}>
+                        <span data-author={props.original.author}>
                             {props.value}
                         </span>
                     );
                 },
             },
+            {
+                Header: 'PUBLICATION YEAR',
+                accessor: 'publication_year',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-pubYear={props.original.publication_year}>
+                            {props.value}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: 'COPIES',
+                accessor: 'copies',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-copies={props.original.copies}>
+                            {props.value || "unavailable"}
+                        </span>
+                    );
+                }
+            },
+            {
+            Header: 'COVER',
+            accessor: 'mage_url_m',
+            filterable: true,
+            Cell: props => {
+                return (
+                    <span data-cover={props.original.image_url_m}>
+                        {props.value}
+                    </span>
+                );
+            }
+        },
             {
                 Header: '',
                 accessor: '',
@@ -123,7 +135,7 @@ class BooksList extends Component {
                             data-update-id={props.original._id}
                             to={`/book/update/${props.original._id}`}
                         >
-                            Update Book
+                            Update Item
                         </Link>
                     );
                 },
@@ -146,29 +158,27 @@ class BooksList extends Component {
 
         return (
             <Wrapper>
-                {(
-                    (books || []).length > 0 // defeats the purpose of using `isLoading` prop?
-                ) ? (
-                        <ReactTable
-                            data={books}
-                            columns={columns}
-                            isLoading={(loaded && loading)}
-                            defaultPageSize={10}
-                            showPageSizeOptions={true}
-                            minRows={10}
-                        />
-                    ) : (
-                        `No books to render... :(`
-                    )}
+                {
+                  <ReactTable
+                    data={books}
+                    columns={columns}
+                    isLoading={(loaded && loading)}
+                    defaultPageSize={10}
+                    showPageSizeOptions={true}
+                    minRows={10}
+                  />
+                  }
             </Wrapper>
         );
     }
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     return {
-      ...state
+      ...state,
+      bookData: ownProps.match.params.id,
+
     }
 }
 

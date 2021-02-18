@@ -6,23 +6,38 @@ import { shared } from '../constants';
 
 import styled from 'styled-components';
 
-const Title = styled.h1.attrs({
-    className: 'h1',
-})``;
-
 const Wrapper = styled.div.attrs({
     className: 'form-group',
 })`
     margin-top: 0 30px;
+    width:100%;
+    display:block;
 `;
 
-const Label = styled.label`
-    margin: 5px;
+const Title = styled.span.attrs({
+    className: 'h1 ',
+})`
+      margin-top: 5px;
+      display:block;
+      Border-Bottom:2px solid black;
+      text-align:center;
+      margin-bottom:1rem;
+      margin-top:25px;
+
+`;
+
+const Label = styled.label.attrs({
+    className:'p',
+})`
+    margin: 5px auto;
     max-width: 30%;
+    position:relative;
+    text-align: left;
+    justifyContent:space-around;
 
     @media screen and (max-width: 420px) {
         height: auto;
-        max-width: 75%;
+        max-width: 100%;
     }
 `;
 
@@ -30,35 +45,14 @@ const InputText = styled.input.attrs({
     className: 'form-control',
 })`
     margin: 5px auto;
-    max-width: 30%;
-    text-align: center;
+    max-width: 70%;
+    position:relative;
+    text-align: left;
 
     @media screen and (max-width: 420px) {
         height: auto;
         max-width: 75%;
     }
-`;
-
-const Fieldset = styled.fieldset.attrs({
-    className: 'form-control',
-})`
-    background-color: transparent;
-    border-color: transparent;
-    margin: 1em auto 0.5em;
-    max-width: 50%;
-    min-height: 6em;
-
-    @media screen and (max-width: 420px) {
-        height: auto;
-        max-width: 75%;
-    }
-`;
-
-const DayInput = styled.input.attrs({
-    className: '',
-})`
-    margin: 5px 5px 5px auto;
-    text-align: center;
 `;
 
 const Button = styled.button.attrs({
@@ -84,61 +78,85 @@ class BookInsert extends Component {
          */
         super(props);
         this.state = {
-            name: '',
-            daysOfWeek: {},
-            timeframeNote: '',
-            priority: 0,
-            content: '',
+            _id:'',
+            isbn:'',
+            title: '',
+            author: '',
+            publication_year: '',
+            copies: 0,
+            cover: '', /*image_url_m*/
+            publisher:'',
+            available:'',
         };
     }
 
-    handleChangeInputName = async event => {
-        const name = event.target.value;
-        this.setState({ name });
+    handleChangeInputIsbn = async event => {
+        const isbn = event.target.value;
+        this.setState({ isbn });
     }
 
-    handleChangeDays = async event => {
-        const { checked, value } = event.target;
-        const { daysOfWeek } = this.state;
-        const { DAYS_OF_WEEK } = shared;
-
-        if (checked && !daysOfWeek[value]) {
-            daysOfWeek[value] = DAYS_OF_WEEK[value];
-        } else if (!checked && daysOfWeek[value]) {
-            delete daysOfWeek[value];
-        }
-        this.setState({ daysOfWeek });
+    handleChangeInputTitle = async event => {
+        const title = event.target.value;
+        this.setState({ title });
     }
 
-    handleChangeInputTimeframe = async event => {
-        const timeframeNote = event.target.value;
-        this.setState({ timeframeNote });
+    handleChangeInputAuthor = async event => {
+        const author = event.target.value;
+        this.setState({ author });
     }
 
-    handleChangeInputPriority = async event => {
-        const priority = event.target.validity.valid
+    handleChangeInputPublication_year = async event => {
+        const publication_year = event.target.value;
+        this.setState({ publication_year });
+    }
+
+    handleChangeInputCopies = async event => {
+        const copies = event.target.validity.valid
             ? event.target.value
-            : this.state.priority;
+            : this.state.copies;
 
-        this.setState({ priority });
+        this.setState({ copies });
     }
 
-    handleChangeInputContent = async event => {
-        const content = event.target.value;
-        this.setState({ content });
+    handleChangeInputCover = async event => {
+        const cover = event.target.value;
+        this.setState({ cover });
+    }
+
+    handleChangeInputPublisher = async event => {
+        const publisher = event.target.value;
+        this.setState({ publisher });
+    }
+
+    handleChangeInputAvailable = async event => {
+        const available = event.target.value;
+        this.setState({ available });
     }
 
     handleInsertBook = event => {
         event.preventDefault();
 
         const {
-            name,
-            daysOfWeek,
-            timeframeNote,
-            priority,
-            content
+          isbn,
+          title,
+          author,
+          publication_year,
+          copies,
+          cover,
+          publisher,
+          available
         } = this.state;
-        const book = { name, daysOfWeek, timeframeNote, priority, content };
+
+        const book = {
+        isbn,
+        title,
+        author,
+        publication_year,
+        copies,
+        cover,
+        publisher,
+        available
+      };
 
         this.props.insertSingleBook(book)
             .then(resp => {
@@ -147,11 +165,12 @@ class BookInsert extends Component {
                 if (typeof resp === "object" && (resp.status < 300 && resp.status >= 200)) {
                     window.alert('Book inserted successfully');
                     this.setState({
-                        name: '',
-                        daysOfWeek: {},
-                        timeframeNote: '',
-                        priority: 0,
-                        content: '',
+                      isbn:'',
+                      title: '',
+                      author: '',
+                      publication_year: '',
+                      copies: 0,
+                      cover: '',
                     });
                 } else {
                     throw resp;
@@ -167,72 +186,80 @@ class BookInsert extends Component {
 
     render() {
         const {
-            name,
-            daysOfWeek,
-            timeframeNote,
-            priority,
-            content
+          isbn,
+          title,
+          author,
+          publication_year,
+          copies,
+          cover,
+          publisher,
+          available
         } = this.state;
-
-        const { DAYS_OF_WEEK } = shared;
 
         return (
             <Wrapper>
-                <Title>Create Book</Title>
+                <Title>Add A Book</Title>
 
-                <Label>Name: </Label>
+                <Label>ISBN: </Label>
                 <InputText
                     type="text"
-                    value={name}
-                    onChange={this.handleChangeInputName}
+                    value={isbn}
+                    onChange={this.props.handleChangeInputIsbn}
                 />
 
-                <Fieldset>
-                    <legend>Day(s) of the Week: </legend>
-                    {Object.keys(DAYS_OF_WEEK).map((day, i) => (
-                        <React.Fragment
-                            key={day}
-                        >
-                            <Label
-                                htmlFor={day}
-                            >
-                                <DayInput
-                                    type="checkbox"
-                                    id={day}
-                                    value={day}
-                                    onChange={this.handleChangeDays}
-                                    checked={typeof daysOfWeek[day] === "string"}
-                                />
-                                { DAYS_OF_WEEK[day] }
-                            </Label>
-                        </React.Fragment>
-                    ))}
-                </Fieldset>
-
-                <Label>Timeframe Note: </Label>
+                <Label>Title: </Label>
                 <InputText
                     type="text"
-                    value={timeframeNote}
-                    onChange={this.handleChangeInputTimeframe}
+                    value={title}
+                    onChange={this.props.handleChangeInputTitle}
                 />
 
-                <Label>Priority: </Label>
+                <Label>Author: </Label>
                 <InputText
-                    type="number"
-                    step="0.1"
-                    lang="en-US"
-                    min="0"
-                    max="1000"
-                    pattern="[0-9]+([,\.][0-9]+)?"
-                    value={priority}
-                    onChange={this.handleChangeInputPriority}
+                    type="text"
+                    value={author}
+                    onChange={this.props.handleChangeInputAuthor}
                 />
 
-                <Label>Content: </Label>
+                <Label>Publication Year: </Label>
                 <InputText
-                    type="textarea"
-                    value={content}
-                    onChange={this.handleChangeInputContent}
+                    type="text"
+                    value={publication_year}
+                    onChange={this.props.handleChangeInputPublication_year}
+                />
+
+                <Label>Copies </Label>
+                <InputText
+                type="number"
+                step="1"
+                lang="en-US"
+                min="0"
+                pattern="[0-9]+([,\.][0-9]+)?"
+                    onChange={this.props.handleChangeInputCopies}
+                />
+
+                <Label>Publisher: </Label>
+                <InputText
+                    type="text"
+                    value={publisher}
+                    onChange={this.props.handleChangeInputPublisher}
+                />
+
+                <Label>Available </Label>
+                <InputText
+                type="number"
+                step="1"
+                lang="en-US"
+                min="0"
+                pattern="[0-9]+([,\.][0-9]+)?"
+                    onChange={this.props.handleChangeInputAvailable}
+                />
+
+                <Label>Cover: </Label>
+                  <InputText
+                    type="file"
+                    value={cover}
+                    onChange={this.props.handleChangeInputCover}
                 />
 
                 <Button onClick={this.handleInsertBook}>Add Book</Button>

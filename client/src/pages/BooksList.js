@@ -2,78 +2,19 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { useTable } from 'react-table';
+import ReactTable from 'react-table-6';
 import * as actions from '../actions';
 import { DeleteButton } from '../components/buttons';
 
-import MaUTable from '@material-ui/core/Table'
-import {
-    CssBaseline,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-} from '@material-ui/core';
-
 import styled from 'styled-components';
+
+import 'react-table-6/react-table.css';
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
-
-    @media screen and (max-width: 420px) {
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
 `;
 
-const Table = ({ columns, data }) => {
-    const {
-        getTableProps,
-        headerGroups,
-        rows,
-        prepareRow
-    } = useTable({
-      columns,
-      data
-    });
-
-    return (
-        <MaUTable {...getTableProps()}>
-            <TableHead>
-                {headerGroups.map(headerGroup => (
-                    <TableRow {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <TableCell {...column.getHeaderProps()}>
-                                {column.render('Header')}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableHead>
-            <TableBody>
-                {rows.map((row, i) => {
-                    prepareRow(row)
-                    return (
-                        <TableRow
-                            data-row-book-id={row.values._id}
-                            {...row.getRowProps()}
-                        >
-                            {row.cells.map(cell => {
-                                return (
-                                    <TableCell {...cell.getCellProps()}>
-                                        {cell.render('Cell')}
-                                    </TableCell>
-                                )
-                            })}
-                        </TableRow>
-                    )
-                })}
-            </TableBody>
-        </MaUTable>
-    )
-};
-
-class BooksTable extends Component {
+class BooksList extends Component {
 
     componentDidMount() {
         console.log("BooksList: props");
@@ -106,13 +47,11 @@ class BooksTable extends Component {
             {
                 Header: 'ID',
                 accessor: '_id',
-                // filterable: true,
+                filterable: true,
                 Cell: props => {
-                    console.log(props);
-                    const { original } = props.cell.row;
                     return (
-                        <span data-book-id={original._id}>
-                            {props.value}
+                        <span data-book-id={props.original._id}>
+                            {props.original._id}
                         </span>
                     )
                 }
@@ -120,11 +59,10 @@ class BooksTable extends Component {
             {
                 Header: 'Name',
                 accessor: 'name',
-                // filterable: true,
+                filterable: true,
                 Cell: props => {
-                    const { original } = props.cell.row;
                     return (
-                        <span data-name={original.name}>
+                        <span data-name={props.original.name}>
                             {props.value}
                         </span>
                     );
@@ -133,9 +71,9 @@ class BooksTable extends Component {
             {
                 Header: 'Day(s)',
                 accessor: 'daysOfWeek',
-                // filterable: true,
+                filterable: true,
                 Cell: props => {
-                    const { daysOfWeek } = props.cell.row.original;
+                    const { daysOfWeek } = props.original;
                     let daysToDisplay = "";
                     if (daysOfWeek && typeof daysOfWeek === "object") {
                         for (const day in daysOfWeek) {
@@ -146,7 +84,7 @@ class BooksTable extends Component {
                     return (
                         <span
                             data-daysofweek={daysOfWeek && JSON.stringify(daysOfWeek)}
-                            data-daysofweek-by-id={props.value}
+                            data-daysofweek-by-id={props.original._id}
                         >
                             {daysToDisplay || "-"}
                         </span>
@@ -157,9 +95,8 @@ class BooksTable extends Component {
                 Header: 'Timeframe',
                 accessor: 'timeframeNote',
                 Cell: props => {
-                    const { original } = props.cell.row;
                     return (
-                        <span data-timeframe={original.timeframeNote}>
+                        <span data-timeframe={props.original.timeframeNote}>
                             {props.value || "-"}
                         </span>
                     );
@@ -168,25 +105,23 @@ class BooksTable extends Component {
             {
                 Header: 'Priority',
                 accessor: 'priority',
-                // filterable: true,
+                filterable: true,
                 Cell: props => {
-                    const { original } = props.cell.row;
                     return (
-                        <span data-priority={original.priority}>
+                        <span data-priority={props.original.priority}>
                             {props.value}
                         </span>
                     );
                 },
             },
             {
-                Header: 'Update',
-                accessor: '_update',
+                Header: '',
+                accessor: '',
                 Cell: props => {
-                    const { original } = props.cell.row;
                     return (
                         <Link
-                            data-update-id={original._id}
-                            to={`/book/update/${props.value}`}
+                            data-update-id={props.original._id}
+                            to={`/book/update/${props.original._id}`}
                         >
                             Update Book
                         </Link>
@@ -194,14 +129,13 @@ class BooksTable extends Component {
                 },
             },
             {
-                Header: 'Delete',
-                accessor: '_delete',
+                Header: '',
+                accessor: '',
                 Cell: props => {
-                    const { original } = props.cell.row;
                     return (
-                        <span data-delete-id={original._id}>
+                        <span data-delete-id={props.original._id}>
                             <DeleteButton
-                                id={original._id}
+                                id={props.original._id}
                                 onDelete={this.handleRemoveBook}
                             />
                         </span>
@@ -212,17 +146,20 @@ class BooksTable extends Component {
 
         return (
             <Wrapper>
-                <CssBaseline />
                 {(
-                    (books || []).length > 0
+                    (books || []).length > 0 // defeats the purpose of using `isLoading` prop?
                 ) ? (
-                    <Table
-                        data={books}
-                        columns={columns}
-                    />
-                ) : (
-                    `No books to render... :(`
-                )}
+                        <ReactTable
+                            data={this.props}
+                            columns={columns}
+                            isLoading={(loaded && loading)}
+                            defaultPageSize={10}
+                            showPageSizeOptions={true}
+                            minRows={10}
+                        />
+                    ) : (
+                        `No books to render... :(`
+                    )}
             </Wrapper>
         );
     }
@@ -237,4 +174,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(BooksTable);
+export default connect(mapStateToProps, mapDispatchToProps)(BooksList);

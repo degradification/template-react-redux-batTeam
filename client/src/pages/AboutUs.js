@@ -4,7 +4,8 @@ const aboutContainer={
   justifyContent:'flex-start',
   width:'100%',
   height:'auto',
-  margin:'20px',
+  //margin was 20 px
+  margin:'30px',
   textAlign:'left',
 }
 

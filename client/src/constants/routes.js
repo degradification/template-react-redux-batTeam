@@ -7,7 +7,8 @@ const LOG_IN = '/login';
 
 // Post routes
 const BOOKS = '/books';
-const BOOK = '/book/:id';
+//const BOOK = '/book/:id';
+const BOOK = '/book';
 const BOOK_INSERT = '/book/create';
 const BOOK_UPDATE = '/book/update/:id';
 

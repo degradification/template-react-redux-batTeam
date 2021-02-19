@@ -4,6 +4,7 @@ import BooksTable from './BooksTable';
 import BookUpdate from './BookUpdate';
 import AboutUs from './AboutUs';
 import Admin from './Admin';
+import Details from './Details';
 
 export {
     BookInsert,
@@ -11,5 +12,6 @@ export {
     BooksTable,
     BookUpdate,
     AboutUs,
-    Admin
+    Admin,
+    Details,
 };

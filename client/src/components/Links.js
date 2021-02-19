@@ -56,6 +56,7 @@ class Links extends Component {
                     >
                         Home
                     </Link>
+
                     <Link
                         to="/admin"
                         className="navbar-brand"

@@ -29,6 +29,7 @@ import {
     BookUpdate,
     AboutUs,
     Admin,
+    Details,
 } from './pages';
 
 class App extends Component {
@@ -43,6 +44,8 @@ class App extends Component {
                 <Route exact path={`${routes.BOOKS}/react-table-v6`} component={BooksTable} />
                 <Route exact path={routes.BOOK_INSERT} component={BookInsert} />
                 <Route exact path={routes.BOOK_UPDATE} component={BookUpdate} />
+                <Route exact path={routes.BOOK} component={Details} />
+
             </Switch>
         );
 

@@ -1,6 +1,6 @@
 .app--main {
   text-align: center;
-  background-color:rgb(229, 229, 229);
+  background-color:rgb(217, 212, 210);
   position:relative;
   margin:0px;
   /*change with correct rgb from template*/
@@ -18,13 +18,14 @@
 }
 
 .app--header {
-  background-color: #282c34;
+  background-color: #000000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  font-family: 'Comfortaa';
   color: white;
 }
 
@@ -45,7 +46,7 @@
 
 
 .page-layout--container{
-  background-color: rgb(210, 180, 140, 0.3);
+  background-color: rgb(217, 212, 210);
   height:100%;
   width:100%;
   object-fit: contain;
@@ -59,4 +60,5 @@
   display:flex;
   margin:2px;
   background-color: lightblue;
+    font-family: 'Comfortaa';
 }

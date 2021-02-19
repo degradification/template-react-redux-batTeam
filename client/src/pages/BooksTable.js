@@ -158,7 +158,9 @@ class BooksList extends Component {
 
         return (
             <Wrapper>
-                {
+            {(
+              (books || [].length >0)
+            )? (
                   <ReactTable
                     data={books}
                     columns={columns}
@@ -167,7 +169,11 @@ class BooksList extends Component {
                     showPageSizeOptions={true}
                     minRows={10}
                   />
-                  }
+                ) :(
+
+                'No Table to Render'
+
+                )}
             </Wrapper>
         );
     }

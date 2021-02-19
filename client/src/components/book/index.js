@@ -1,7 +1,7 @@
 import Covers from './Covers';
-import WithData from './WithData';
+import withData from './withData';
 
 export {
   Covers,
-  WithData,
+  withData,
 };

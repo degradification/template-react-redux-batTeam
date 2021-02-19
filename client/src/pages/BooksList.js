@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import ReactTable from 'react-table-6';
 import * as actions from '../actions';
 import { DeleteButton } from '../components/buttons';
+import axios from 'axios';
 
 import styled from 'styled-components';
 
@@ -19,7 +20,7 @@ class BooksList extends Component {
     componentDidMount() {
         console.log("BooksList: props");
         console.log(this.props);
-        if (((this.props.bookData || {}).books || []).length) return;
+        // if (((this.props.bookData || {}).books || []).length) return;
 
         this.props.fetchAllBooks()
     }

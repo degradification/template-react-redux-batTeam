@@ -83,7 +83,7 @@ class Links extends Component {
                         </Item>
                         <Item>
                             <Link to="/books/react-table-v6" className="nav-link">
-                                Books (react-table-v6)
+                                Books Table (react-table-v6)
                             </Link>
                         </Item>
                     </List>

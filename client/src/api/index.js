@@ -2,8 +2,8 @@ import https from 'https';
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000/books',
-    hostname: process.env.REEACT_APP_API_HOST || 'http://localhost:3000/',
+    baseURL: process.env.REACT_APP_API_URL || 'https://localhost:3000/api',
+    hostname: process.env.REEACT_APP_API_HOST || 'https://localhost:3000/',
     httpsAgent: https.Agent({
         rejectUnauthorized: false,
     }),
@@ -13,8 +13,8 @@ const api = axios.create({
 
 export const getAllBooks = payload => api.get(`/books`, payload);
 export const getBookById = id => api.get(`/book/${id}`);
-export const insertBook = payload => api.post(`/book`, payload);
-export const updateBookById = (id, payload) => api.put(`/book/${id}`, payload);
+export const insertBook = payload => api.post(`/book/create`, payload);
+export const updateBookById = (id, payload) => api.put(`/book/update/${id}`, payload);
 export const deleteBookById = id => api.delete(`/book/${id}`);
 
 const apis = {

@@ -7,7 +7,7 @@ const db = require('./db');
 const bookRouter = require('./routes/book-router');
 
 const app = express();
-const apiPort = process.env.Port || 3000;
+const apiPort = process.env.airPort || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());

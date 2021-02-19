@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function WithData(Component){
+function withData(Component){
 
   const covers = [
     {
@@ -14,9 +14,9 @@ function WithData(Component){
     },
     {
       coverImageUrlMedium:"http://images.amazon.com/images/P/0195153448.01.MZZZZZZZ.jpg",
-      title:"Clara Callan", //Link these to content called from db
+      title:"Clara Callan",
       author:"Richard Bruce Wright",
-      publication: 2001,
+      publication_year: 2001,
       copies:2,
       isbn:"0002005018",
     },
@@ -82,7 +82,23 @@ function WithData(Component){
       author:"Ann Beattie",
       publication:2002,
       copies:7,
-      isbn:"ISBN: 074322678X",
+      isbn:"074322678X",
+    },
+    {
+      coverImageUrlMedium:"http://images.amazon.com/images/P/0679425608.01.MZZZZZZZ.jpg",
+      title:"Under the Black Flag: The Romance and the Reality of Life Among the Pirates",
+      author:"David Cordingly",
+      publication:1996,
+      copies: 6,
+      isbn:"0679425608",
+    },
+    {
+      coverImageUrlMedium:"http://images.amazon.com/images/P/074322678X.01.MZZZZZZZ.jpg",
+      title:"Where You'll Find Me: And Other Stories",
+      author:"Ann Beattie",
+      publication:2002,
+      copies:7,
+      isbn:"074322678X",
     },
 
   ];
@@ -92,4 +108,4 @@ function WithData(Component){
   };
 }
 
-export default WithData;
+export default withData;

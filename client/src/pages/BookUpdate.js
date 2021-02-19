@@ -60,7 +60,7 @@ const CancelButton = styled.a.attrs({
 
 class BookUpdate extends Component {
     constructor(props) {
-
+      
         /**
          * Currently deprecated and now known as the "legacy context":
          * - https://reactjs.org/docs/legacy-context.html

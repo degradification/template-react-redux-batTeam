@@ -10,13 +10,12 @@ import Covers from './book/Covers';
 
 const Book = () =>
 <React.Fragment>
-<div className="container-fluid">
-  <Button className="btn btn-warning">Genre</Button>
-  <div className="col d-flex">
-    <Card border="light" className="card-block">
-      <Covers />
-    </Card>
+  <div className="container-fluid p-2">
+    <div className="col d-flex">
+      <Card border="none" className="card-block">
+        <Covers />
+      </Card>
     </div>
-    </div>
+  </div>
 </React.Fragment>
 export default Book;

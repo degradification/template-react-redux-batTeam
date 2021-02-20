@@ -6,7 +6,6 @@ import api from '../api';
 export const fetchAllBooks = () => {
     return (dispatch) => {
         dispatch({ type: types.LOADING_ALL_BOOKS });
-
         return api.getAllBooks()
             .then(resp => {
                 const { books } = resp.data;
@@ -34,7 +33,7 @@ export const fetchSingleBook = (bookId) => {
                 console.log("getBookById: resp");
                 console.log(resp);
                 if (resp.data.success) {
-                    const { book } = resp.data;
+                    const { book } = resp.bookData;
                     dispatch({
                         type: types.GET_SINGLE_BOOK,
                         book,
@@ -58,12 +57,12 @@ export const insertSingleBook = book => {
             .then(resp => {
                 console.log("insertBook: resp");
                 console.log(resp);
-                if ((resp.data || {}).success) {
-                    const newBook = JSON.parse(resp.config.data);
+                if ((resp.bookData || {}).success) {
+                    const newBook = JSON.parse(resp.config.bookData);
                     dispatch({
                         type: types.SET_SINGLE_BOOK,
                         book: {
-                            _id: resp.data.id,
+                            _id: resp.bookData.id,
                             ...newBook
                         }
                     });
@@ -86,12 +85,12 @@ export const updateSingleBook = book => {
             .then(resp => {
                 console.log("updateBook: resp");
                 console.log(resp);
-                if ((resp.data || {}).success) {
-                    const newBook = JSON.parse(resp.config.data);
+                if ((resp.bookData || {}).success) {
+                    const newBook = JSON.parse(resp.config.bookData);
                     dispatch({
                         type: types.UPDATE_SINGLE_BOOK,
                         book: {
-                            _id: resp.data.id,
+                            _id: resp.bookData.id,
                             ...newBook
                         }
                     });

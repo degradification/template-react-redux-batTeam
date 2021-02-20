@@ -59,21 +59,6 @@ const cardStyle={
   margin:"0px", padding:"0px",
 }
 
-const Book = props => (
-  <div className="container-fluid col-4 col-lg-2" style={cardStyle}>
-    <Card.Img variant="top" style={{minHeight:"200px"}}
-    src = {props.book.image_url_l}>
-      <Link to = {`/items${props.book._id}`}></Link>
-    </Card.Img>
-    <Card.Title className="leftPad">
-      <Title>
-          <Link to = {`/items${props.book._id}`}>
-              {props.book.title}
-          </Link>
-      </Title>
-    </Card.Title>
-  </div>
-)
 
 class Books extends Component {
     constructor(props) {
@@ -82,18 +67,18 @@ class Books extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:8000/items/')
-            .then(response => {
-                this.setState({ books: response.data })
+        axios.get('http://localhost:8000/books/')
+            .then(resp => {
+                this.setState({ books: resp.bookData })
             })
             .catch((error) => {
                 console.log(error);
             })
     }
 
-    bookList(){
-        return this.state.books.map(currentBook => {
-            return <Book book = {currentBook} key = {currentBook._id}/>;
+    BookList(){
+        return this.state.books.map(book => {
+            return <Book book = {book} key = {book._id}/>;
         })
     }
 
@@ -103,7 +88,7 @@ class Books extends Component {
                 <h1><b>Available Books</b></h1>
                 <br></br>
                 <div>
-                    {this.bookList()}
+                    {this.BookList()}
                 </div>
             </Container>
         )

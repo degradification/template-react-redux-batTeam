@@ -79,15 +79,15 @@ class BookInsert extends Component {
          */
         super(props);
         this.state = {
-            _id:'',
-            isbn:'',
-            title: '',
-            author: '',
-            publication_year: '',
-            copies: 0,
-            image_url_m: '', /*image_url_m*/
-            publisher:'',
-            available:'',
+            _id: props._id,
+            isbn: props.isbn,
+            title: props.title,
+            author: props.author,
+            publication_year: props.publication_year,
+            copies: props.copies,
+            image_url_m: props.image_url_m, /*image_url_m*/
+            publisher: props.publisher,
+            available: props.available,
         };
     }
 

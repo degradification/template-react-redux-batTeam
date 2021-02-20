@@ -4,7 +4,6 @@ const initialState = {
     loading: false,
     loaded: false,
     books: [],
-    book: null
 }
 
 const bookReducer = (state = initialState, action) => {

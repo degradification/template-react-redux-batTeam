@@ -29,6 +29,7 @@ import {
     BookUpdate,
     AboutUs,
     Admin,
+    Books
 } from './pages';
 
 class App extends Component {
@@ -56,6 +57,7 @@ class App extends Component {
                         {publicViews}
                     </div>
                 </div>
+                <Books />
                 <HoursLocation />
                 </PageLayout>
             </Router>

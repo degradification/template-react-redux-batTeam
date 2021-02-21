@@ -15,7 +15,7 @@ const Nav = styled.nav.attrs({
     className: 'navbar navbar-expand-lg navbar-dark bg-dark',
 })`
     margin-bottom: 0px;
-
+    justifyContent:space-between;
     /* background-color: rgba(230, 180, 0, 0.3); */
 
     @media screen and (min-width: 992px) {

@@ -20,6 +20,10 @@ const Wrapper = styled.div.attrs({
 const Label = styled.label`
     margin: 5px;
     max-width: 30%;
+    position:relative;
+    display:inline;
+    float:left;
+    justifyContent:space-around;
 `;
 
 const InputText = styled.input.attrs({
@@ -27,7 +31,6 @@ const InputText = styled.input.attrs({
 })`
     margin: 5px auto;
     max-width: 30%;
-    text-align: center;
 `;
 
 const Fieldset = styled.fieldset.attrs({

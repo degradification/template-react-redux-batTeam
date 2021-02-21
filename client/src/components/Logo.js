@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import logo from '../styles/assets/logo.svg';
+import coffee from '../styles/assets/Coffee.svg';
 
 const Wrapper = styled.a.attrs({
     className: 'navbar-brand',
@@ -13,9 +13,9 @@ class Logo extends Component {
         const { logoStyles } = this.props;
 
         return (
-            <Wrapper href="https://localtest:8000">
-                <img src={logo} className="app--logo" style={logoStyles} alt="React Logo" />
-            </Wrapper>
+            <Wrapper href="https://localhost:3000">
+                <img src={coffee} className="app--logo" style={logoStyles} alt="React Logo" />
+           </Wrapper>
         );
     }
 }
@@ -25,4 +25,4 @@ Logo.propTypes = {
     logoStyles: PropTypes.object,
 };
 
-export default Logo; 
+export default Logo;

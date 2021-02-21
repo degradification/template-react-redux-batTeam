@@ -4,7 +4,13 @@ import styled from 'styled-components';
 
 import Logo from './Logo';
 
-const HomeWrapper = styled.div``;
+const HomeWrapper = styled.div`
+    width:100%;
+    display:flex;
+    justifyContent:space-between;
+    alignContent:center;
+`
+;
 
 const Collapse = styled.div.attrs({
     // className: 'collapse navbar-collapse',
@@ -22,7 +28,6 @@ const List = styled.div.attrs({
         flex-direction: row;
         justify-content: space-between;
         /* justify-content: flex-start; */
-        width: 100%;
     }
 `;
 
@@ -35,12 +40,14 @@ const Item = styled.div.attrs({
 `;
 
 const homeStyles = {
-    marginLeft: `1em`
+    marginLeft: `1em`,
+    width:'100%',
+    display:'inline',
 };
 
 const logoStyles = {
-    height: '40px',
-    width: '40px',
+    height: '50px',
+    width: '50px',
 };
 
 class Links extends Component {

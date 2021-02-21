@@ -85,7 +85,7 @@ class BookInsert extends Component {
             author: props.author,
             publication_year: props.publication_year,
             copies: props.copies,
-            image_url_m: props.image_url_m, /*image_url_m*/
+            image_url_m: props.image_url_m,
             publisher: props.publisher,
             available: props.available,
         };

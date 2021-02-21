@@ -12,7 +12,7 @@ import withData from './withData';
 const cardStyle={
   backgroundColor:"rgba(229, 229, 229)",
   Width:"100%", marginTop:"24px", padding:"0px",
-  color:"black", border:'none'
+  color:"black", border:'none',
 }
 
 const titleStyle = {
@@ -22,7 +22,7 @@ const titleStyle = {
 
 const detailStyle ={
   color:'rgba(84, 86, 88)', marginBottom:'8px',
-  marginTop:'8px', padding:'2px',
+  marginTop:'8px', padding:'2px', fontSize:'1.3rem',
   justifyContent:'space-around',
 }
 
@@ -31,7 +31,7 @@ const spanStyle = {
 }
 const Covers = ({covers}) =>{
   return (
-    <div className="container-fluid row" style={cardStyle}>
+    <div className="container-fluid justifyContent-space-around row" style={cardStyle}>
       {covers.map((
         { coverImageUrlMedium,
           isbn,
@@ -43,17 +43,17 @@ const Covers = ({covers}) =>{
           available
         }) => {
         return(
-          <div className="text-left col-4 col-lg-2" key={covers.isbn}>
+          <div className="text-left col-sm-12 col-4 col-lg-3 p-2" key={covers.isbn}>
 
           <Card.Img variant="top" style={{ minHeight:"200px"}}
             src={coverImageUrlMedium} alt="Cover Image">
           </Card.Img>
-
           <Card.Title style={titleStyle}
           className="leftPad"> {title} </Card.Title>
           <Card.Subtitle className="leftPad" style={detailStyle} > {author} </Card.Subtitle>
           <Card.Text className="leftPad" style={detailStyle}>ISBN: {isbn}</Card.Text>
           <Card.Text className="leftPad" style={detailStyle}> <span style={{width:'50%', float:'left'}}> {publication} </span><span style={spanStyle}> {copies}</span></Card.Text>
+          <Button href={'/book/:id'}>Details</Button>
           </div>
         );
         })}

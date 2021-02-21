@@ -14,7 +14,7 @@ const UpdateBtn = styled.a.attrs({
     className: 'btn btn-lg',
 })`
   margin: 25px 25px 25px 10px;
-  width:80%;
+  width:60%;
   Background-Color: rgba(204,136,0, 0.3);
 `;
 
@@ -22,7 +22,7 @@ const AddBtn = styled.a.attrs({
     className: 'btn btn-lg',
 })`
   margin: 25px 25px 25px 10px;
-  width:80%;
+  width:60%;
   Background-Color: rgba(204,136,0, 0.3);
 `;
 
@@ -65,7 +65,6 @@ class Admin extends Component{
 
         <AddBtn href={'/book/create'} block>Add A New Book</AddBtn>
         <UpdateBtn href={'/books'} block>Update An Existing Book</UpdateBtn>
-        <CheckoutBtn href={'/books/list'} block>Checkout A Book</CheckoutBtn>
       </>
   )};
 }

@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import Logo from './Logo';
 
 const HomeWrapper = styled.div`
-    width:100%;
+    width:60%;
     display:flex;
     justifyContent:space-between;
     alignContent:center;
+    margin:8px; position:relative;
 `
 ;
 
@@ -26,7 +27,7 @@ const List = styled.div.attrs({
 })`
     @media screen and (max-width: 420px) {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         /* justify-content: flex-start; */
     }
 `;

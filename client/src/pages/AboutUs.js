@@ -7,20 +7,17 @@ const aboutContainer={
   width:'100%',
   height:'auto',
   margin:'20px',
-  textAlign:'left',
 }
 
 const aboutTitle = {
   borderBottom:'2px solid black',
   fontSize:'2rem',
-  textAlign:'center',
   marginBottom:'1rem',
   marginTop:'25px',
 };
 
 const aboutUsStyle = {
   fontSize:'1.5rem',
-  textAlign:'center',
   marginBottom:'1rem',
   marginTop:'50px',
 };
@@ -28,6 +25,8 @@ const aboutUsStyle = {
 const aboutBody = {
   fontSize:'1.2rem',
   margin:'1.78rem',
+  textAlign:'left',
+
 };
 
 const About = () => {

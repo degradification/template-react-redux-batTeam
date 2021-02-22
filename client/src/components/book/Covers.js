@@ -3,14 +3,16 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Button from 'react-bootstrap/Button';
+import styled from 'styled-components';
+
 
 import withData from './withData';
 
 const cardContainer={
   backgroundColor:"rgba(229, 229, 229)",
   Width:"100%", marginTop:"24px", padding:"0px",
-  color:"black", border:'none', maxHeight:'100vh',
-  alignItems:'bottom',
+  color:"black", border:'none', flex:'1',
+  justifyContent:'flex-end',
 }
 
 const imageStyle ={
@@ -25,22 +27,23 @@ const titleStyle = {
 
 const detailStyle ={
   color:'rgba(90, 90, 90)', margin:'8px',
-  padding:'2px', fontSize:'0.98rem',
-  justifyContent:'space-between', lineHeight:'1.15',
-  width:'100%', alignItems:'bottom'
+  padding:'2px', fontSize:'0.98rem',lineHeight:'1.15',
+  width:'100%', alignItems:'center',
 }
 
 const copiesBtn = {
   width:'15%', height:'50%', float:'right',
   margin:'0px', padding:'0px', border:'none',
   backgroundColor:'gray', display:'block',
+  alignItems:'center',
 }
 
 const Covers = ({covers}) =>{
   return (
-    <div className="container-fluid justifyContent-space-around d-flex row" style={cardContainer}>
+    <div className="container-fluid row"
+     style={cardContainer}>
       {covers.map((
-        { coverImageUrlMedium,
+        { coverImageUrlLarge,
           isbn,
           title,
           author,
@@ -50,9 +53,9 @@ const Covers = ({covers}) =>{
           available
         }) => {
         return(
-          <div className="align-items-bottom text-left col-sm-4 col-md-3 col-lg-2 p-2" key={covers.isbn}>
+          <div className="text-left col-md-4 col-sm-6 col-lg-2 p-2" key={covers.isbn}>
           <Card.Img variant="top" style={imageStyle}
-            src={coverImageUrlMedium} alt="Cover Image">
+            src={coverImageUrlLarge} alt="Cover Image">
           </Card.Img>
           <Card.Title style={titleStyle}
             className="leftPad row"> {title}
@@ -61,10 +64,11 @@ const Covers = ({covers}) =>{
           <Card.Text className="leftPad row" style={detailStyle}>ISBN: {isbn}
           </Card.Text>
           <Card.Text className="leftPad row" style={detailStyle}> {publication}
-          <Button style={copiesBtn}> {copies}
-          </Button>
           </Card.Text>
+          <div className="col d-flex justify-content-between align-items-center">
           <Button href={'/book/:id'}>Details</Button>
+          <Button style={copiesBtn}> {copies}</Button>
+          </div>
           </div>
         );
         })}

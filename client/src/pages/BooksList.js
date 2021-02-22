@@ -130,6 +130,29 @@ class BooksTable extends Component {
                 }
             },
             {
+                Header: 'Day(s)',
+                accessor: 'daysOfWeek',
+                // filterable: true,
+                Cell: props => {
+                    const { daysOfWeek } = props.cell.row.original;
+                    let daysToDisplay = "";
+                    if (daysOfWeek && typeof daysOfWeek === "object") {
+                        for (const day in daysOfWeek) {
+                            daysToDisplay = daysToDisplay === "" ? daysOfWeek[day] : `${daysToDisplay}, ${daysOfWeek[day]}`;
+                        }
+
+                    }
+                    return (
+                        <span
+                            data-daysofweek={daysOfWeek && JSON.stringify(daysOfWeek)}
+                            data-daysofweek-by-id={props.value}
+                        >
+                            {daysToDisplay || "-"}
+                        </span>
+                    );
+                }
+            },
+            {
                 Header: 'Timeframe',
                 accessor: 'timeframeNote',
                 Cell: props => {

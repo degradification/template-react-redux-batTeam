@@ -57,7 +57,6 @@ class App extends Component {
                         {publicViews}
                     </div>
                 </div>
-                <Books />
                 <HoursLocation />
                 </PageLayout>
             </Router>

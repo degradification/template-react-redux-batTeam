@@ -2,7 +2,7 @@
 const Book = require('../models/book-model');
 
 getBooks = async (req, res) => {
-     Book.find({}, (err, books) => {
+  await Book.find({}, (err, books) => {
         if (err) {
             console.error(`[Hack.Diversity React Template] - 400 in 'getBooks': ${err}`);
             return res
@@ -11,6 +11,7 @@ getBooks = async (req, res) => {
                     success: false,
                     error: err,
                 });
+                return;
         }
         if (!books.length) {
             console.error(`[Hack.Diversity React Template] - 404 in 'getBooks': Books not found`);
@@ -37,11 +38,12 @@ getBooks = async (req, res) => {
                 success: false,
                 error: err
             });
+            return;
     });
 };
 
 getBookById = async (req, res) => {
-     Book.find({ _id: req.params.id }, (err, books) => {
+  await Book.find({ _id: req.params.id }, (err, books) => {
         if (err) {
             console.error(`[Hack.Diversity React Template] - 400 in 'getBookById': ${err}`);
             throw res

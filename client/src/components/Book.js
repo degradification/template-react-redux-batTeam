@@ -1,23 +1,19 @@
 /* eslint-disable semi */
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import CardDeck from 'react-bootstrap/CardDeck';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import ButtonGroup from 'react-bootstrap/DropdownButton';
 import Covers from './book/Covers';
 
 const cardStyle = {
   backgroundColor:'transparent',
-  border:'none'
+  border:'none', width:'100%',
+  padding:'0', margin:'0'
 }
 
 const Book = () =>
 <React.Fragment>
-  <div className="container-fluid p-4">
+  <div className="container-fluid">
   <h1><b style={{float:'left'}}>Available Books</b></h1>
-    <div className="col d-flex" style={{backgroundColor:'rgba(229,229, 229)'}}>
+    <div className="w-100 d-flex" style={{backgroundColor:'rgba(229,229, 229)'}}>
       <Card className="card-block" style={cardStyle}>
         <Covers />
       </Card>

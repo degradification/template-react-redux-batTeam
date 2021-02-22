@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import ReactTable from 'react-table-6';
 import * as actions from '../actions';
 import { DeleteButton } from '../components/buttons';
-
+import api from '../api'
 import styled from 'styled-components';
 
 import 'react-table-6/react-table.css';
@@ -16,31 +16,31 @@ const Wrapper = styled.div`
 
 class BooksList extends Component {
 
-    componentDidMount() {
-        console.log("ItemsList: props");
-        console.log(this.props);
-        if (((this.props.bookData || {}).books || []).length) return;
-        this.props.fetchAllBooks()
-    }
+  constructor(props){
+    super(props)
+      this.state={
+        books: [],
+        column: [],
+        loading:false,
+      }
+  }
 
-    handleRemoveItem = data => {
-        const bookId = data;
+    componentDidMount = async () => {
+        this.setState({ loading:true})
 
-        this.props.deleteSingleBook(bookId)
-            .then(resp => {
-                console.log("handleRemoveBook: resp");
-                console.log(resp);
-                this.props.fetchAllBooks();
-            });
-    }
+        await api.getAllBooks().then(books => {
+          this.setState({
+            books: books.bookData,
+            loading: false,
+          })
+        })
+      }
 
     render() {
         const {
             books,
-            loaded,
             loading
-        } = this.props.bookData || {};
-        console.log(books);
+        } = this.state
 
         const columns = [
             {
@@ -64,7 +64,7 @@ class BooksList extends Component {
                         <span data-isbn={props.original.isbn}>
                             {props.value}
                         </span>
-                    );
+                    )
                 }
             },
             {
@@ -76,7 +76,7 @@ class BooksList extends Component {
                         <span data-title={props.original.title}>
                             {props.value}
                         </span>
-                    );
+                    )
                 }
             },
             {
@@ -87,8 +87,8 @@ class BooksList extends Component {
                         <span data-author={props.original.author}>
                             {props.value}
                         </span>
-                    );
-                },
+                    )
+                }
             },
             {
                 Header: 'PUBLICATION YEAR',
@@ -99,8 +99,8 @@ class BooksList extends Component {
                         <span data-pubYear={props.original.publication_year}>
                             {props.value}
                         </span>
-                    );
-                },
+                    )
+                }
             },
             {
                 Header: 'COPIES',
@@ -111,7 +111,7 @@ class BooksList extends Component {
                         <span data-copies={props.original.copies}>
                             {props.value || "unavailable"}
                         </span>
-                    );
+                    )
                 }
             },
             {
@@ -123,7 +123,7 @@ class BooksList extends Component {
                     <span data-cover={props.original.image_url_m}>
                         {props.value}
                     </span>
-                );
+                )
             }
         },
             {
@@ -137,8 +137,8 @@ class BooksList extends Component {
                         >
                             Update Item
                         </Link>
-                    );
-                },
+                    )
+                }
             },
             {
                 Header: '',
@@ -151,43 +151,32 @@ class BooksList extends Component {
                                 onDelete={this.handleRemoveBook}
                             />
                         </span>
-                    );
-                },
+                    )
+                }
             },
-        ];
+        ]
+
+        let showTable = true
+        if(!books.length){
+          showTable=false
+        }
 
         return (
             <Wrapper>
-            {(
-              (books || [].length >0)
-            )? (
+            {showTable && (
                   <ReactTable
                     data={books}
                     columns={columns}
-                    isLoading={(loaded && loading)}
+                    isLoading={(loading)}
                     defaultPageSize={10}
                     showPageSizeOptions={true}
                     minRows={10}
                   />
-                ) :(
-
-                'No Table to Render'
 
                 )}
             </Wrapper>
-        );
+        )
     }
 
 }
-
-const mapStateToProps = (state, ownProps) => {
-    return {
-      ...state,
-      bookData: ownProps.match.params.id,
-
-    }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(BooksList);
+export default (BooksList)

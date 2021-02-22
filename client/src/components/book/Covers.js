@@ -3,35 +3,42 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import ButtonGroup from 'react-bootstrap/DropdownButton';
 
 import withData from './withData';
 
-const cardStyle={
+const cardContainer={
   backgroundColor:"rgba(229, 229, 229)",
   Width:"100%", marginTop:"24px", padding:"0px",
-  color:"black", border:'none',
+  color:"black", border:'none', maxHeight:'100vh',
+  alignItems:'bottom',
+}
+
+const imageStyle ={
+boxShadow:'0px 20px 40px -14px rgba(0, 0, 0, 0.7)',
+height:'45vh',
 }
 
 const titleStyle = {
   color:'black', marginTop:'10px', padding:'2px',
-  fontWeight:'bold',
+  fontWeight:'700', fontSize:'1.13rem', marginLeft:'8px'
 }
 
 const detailStyle ={
-  color:'rgba(84, 86, 88)', marginBottom:'8px',
-  marginTop:'8px', padding:'2px', fontSize:'1.3rem',
-  justifyContent:'space-around',
+  color:'rgba(90, 90, 90)', margin:'8px',
+  padding:'2px', fontSize:'0.98rem',
+  justifyContent:'space-between', lineHeight:'1.15',
+  width:'100%', alignItems:'bottom'
 }
 
-const spanStyle = {
-  width:'50%', float:'right', marginBottom:'20px',
+const copiesBtn = {
+  width:'15%', height:'50%', float:'right',
+  margin:'0px', padding:'0px', border:'none',
+  backgroundColor:'gray', display:'block',
 }
+
 const Covers = ({covers}) =>{
   return (
-    <div className="container-fluid justifyContent-space-around row" style={cardStyle}>
+    <div className="container-fluid justifyContent-space-around d-flex row" style={cardContainer}>
       {covers.map((
         { coverImageUrlMedium,
           isbn,
@@ -43,16 +50,20 @@ const Covers = ({covers}) =>{
           available
         }) => {
         return(
-          <div className="text-left col-sm-12 col-4 col-lg-3 p-2" key={covers.isbn}>
-
-          <Card.Img variant="top" style={{ minHeight:"200px"}}
+          <div className="align-items-bottom text-left col-sm-4 col-md-3 col-lg-2 p-2" key={covers.isbn}>
+          <Card.Img variant="top" style={imageStyle}
             src={coverImageUrlMedium} alt="Cover Image">
           </Card.Img>
           <Card.Title style={titleStyle}
-          className="leftPad"> {title} </Card.Title>
-          <Card.Subtitle className="leftPad" style={detailStyle} > {author} </Card.Subtitle>
-          <Card.Text className="leftPad" style={detailStyle}>ISBN: {isbn}</Card.Text>
-          <Card.Text className="leftPad" style={detailStyle}> <span style={{width:'50%', float:'left'}}> {publication} </span><span style={spanStyle}> {copies}</span></Card.Text>
+            className="leftPad row"> {title}
+          </Card.Title>
+          <Card.Subtitle className="leftPad row" style={detailStyle} > {author} </Card.Subtitle>
+          <Card.Text className="leftPad row" style={detailStyle}>ISBN: {isbn}
+          </Card.Text>
+          <Card.Text className="leftPad row" style={detailStyle}> {publication}
+          <Button style={copiesBtn}> {copies}
+          </Button>
+          </Card.Text>
           <Button href={'/book/:id'}>Details</Button>
           </div>
         );

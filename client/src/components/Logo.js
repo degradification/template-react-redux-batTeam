@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import coffee from '../styles/assets/Coffee.svg';
+import coffee from '../styles/assets/icons.svg';
 
 const Wrapper = styled.a.attrs({
     className: 'navbar-brand',

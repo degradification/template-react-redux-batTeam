@@ -16,7 +16,9 @@ import './styles/App.css';
 import {
     NavBar,
     PageLayout,
-    Welcome
+    Welcome,
+    HoursLocation,
+    Book
 } from './components';
 
 // Pages
@@ -24,7 +26,10 @@ import {
     BookInsert,
     BooksList,
     BooksTable,
-    BookUpdate
+    BookUpdate,
+    AboutUs,
+    Admin,
+    Books
 } from './pages';
 
 class App extends Component {
@@ -32,7 +37,9 @@ class App extends Component {
 
         const publicViews = (
             <Switch>
-                <Route exact path={routes.HOME} component={Welcome} />
+                <Route exact path={routes.HOME} component={Book} />
+                <Route exact path={routes.ABOUT} component={AboutUs} />
+                <Route exact path={routes.ADMIN} component={Admin} />
                 <Route exact path={routes.BOOKS} component={BooksList} />
                 <Route exact path={`${routes.BOOKS}/react-table-v6`} component={BooksTable} />
                 <Route exact path={routes.BOOK_INSERT} component={BookInsert} />
@@ -44,12 +51,14 @@ class App extends Component {
             <Router>
                 <CssBaseline />
                 <NavBar />
-                <div className="app--main">
-                    <PageLayout />
+                <PageLayout >
+                <div className="app--main container-fluid">
                     <div className="view-container">
                         {publicViews}
                     </div>
                 </div>
+                <HoursLocation />
+                </PageLayout>
             </Router>
         );
     };

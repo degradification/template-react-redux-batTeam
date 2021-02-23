@@ -20,6 +20,10 @@ const Wrapper = styled.div.attrs({
 const Label = styled.label`
     margin: 5px;
     max-width: 30%;
+    position:relative;
+    display:inline;
+    float:left;
+    justifyContent:space-around;
 `;
 
 const InputText = styled.input.attrs({
@@ -27,7 +31,6 @@ const InputText = styled.input.attrs({
 })`
     margin: 5px auto;
     max-width: 30%;
-    text-align: center;
 `;
 
 const Fieldset = styled.fieldset.attrs({
@@ -60,6 +63,7 @@ const CancelButton = styled.a.attrs({
 
 class BookUpdate extends Component {
     constructor(props) {
+
         /**
          * Currently deprecated and now known as the "legacy context":
          * - https://reactjs.org/docs/legacy-context.html
@@ -69,70 +73,77 @@ class BookUpdate extends Component {
          */
         super(props);
         this.state = {
-            _id: '',
-            name: '',
-            daysOfWeek: {},
-            timeframeNote: '',
-            priority: 0,
-            content: '',
+          _id:'',
+          isbn:'',
+          title: '',
+          author: '',
+          publication_year: '',
+          copies: 0,
+          image_url_m: '', /*image_url_m*/
+          publisher:'',
+          available:'',
         };
     }
 
     componentDidMount() {
-        this.props.fetchSingleBook(this.props.bookId)
+        this.props.fetchSingleBook(this.props.bookData)
             .then(resp => {
-                const { book } = resp.data;
+                const { book } = resp.bookData;
                 this.setState({ ...book });
             });
     }
 
-    handleChangeInputName = async event => {
-        const name = event.target.value;
-        this.setState({ name });
+    handleChangeInputIsbn = async event => {
+        const isbn = event.target.value;
+        this.setState({ isbn });
     }
 
-    handleChangeDays = async event => {
-        const { checked } = event.target;
-        const { dayIndex } = event.target.dataset;
-        const { daysOfWeek } = this.state;
-        const { DAYS_OF_WEEK } = shared;
-
-        if (checked && !daysOfWeek[dayIndex]) {
-            daysOfWeek[dayIndex] = DAYS_OF_WEEK[dayIndex];
-        } else if (!checked && daysOfWeek[dayIndex]) {
-            delete daysOfWeek[dayIndex];
-        }
-        this.setState({ daysOfWeek: daysOfWeek });
+    handleChangeInputTitle = async event => {
+        const title = event.target.value;
+        this.setState({ title });
     }
 
-    handleChangeInputTimeframe = async event => {
-        const timeframeNote = event.target.value;
-        this.setState({ timeframeNote });
+    handleChangeInputAuthor = async event => {
+        const author = event.target.value;
+        this.setState({ author });
     }
 
-    handleChangeInputPriority = async event => {
-        const priority = event.target.validity.valid
+    handleChangeInputPublication_year = async event => {
+        const publication_year = event.target.value;
+        this.setState({ publication_year });
+    }
+
+    handleChangeInputCopies = async event => {
+        const copies = event.target.value;
+        this.setState({ copies });
+    }
+
+    handleChangeInputImage_url_m = async event => {
+        const image_url_m = event.target.value;
+        this.setState({ image_url_m });
+    }
+
+    handleChangeInputPublisher = async event => {
+        const publisher = event.target.value;
+        this.setState({ publisher });
+    }
+
+    handleChangeInputAvailable = async event => {
+        const available = event.target.validity.valid
             ? event.target.value
-            : this.state.priority;
+            : this.state.available;
 
-        this.setState({ priority });
-    }
-
-    handleChangeInputContent = async event => {
-        const content = event.target.value;
-        this.setState({ content });
+        this.setState({ available });
     }
 
     handleUpdateBook = event => {
         const {
-            _id,
-            name,
-            daysOfWeek,
-            timeframeNote,
-            priority,
-            content
+          _id,  isbn,  title, author, publication_year,
+          copies, cover,  publisher, available,
         } = this.state;
-        const book = { _id, name, daysOfWeek, timeframeNote, priority, content };
+
+        const book = { _id,  isbn,  title, author, publication_year,
+        copies, cover,  publisher, available, };
 
         return this.props.updateSingleBook(book)
             .then(resp => {
@@ -160,75 +171,73 @@ class BookUpdate extends Component {
 
     render() {
         const {
-            _id,
-            name,
-            daysOfWeek,
-            timeframeNote,
-            priority,
-            content
+          _id,  isbn,  title, author, publication_year,
+          copies, image_url_m,  publisher, available
         } = this.state;
-
-        const { DAYS_OF_WEEK } = shared;
 
         return _id && (
             <Wrapper>
-                <Title>Create Book</Title>
+                <Title>Update A Book</Title>
 
-                <Label>Name: </Label>
+                <Label>ISBN: </Label>
                 <InputText
                     type="text"
-                    value={name}
-                    onChange={this.handleChangeInputName}
+                    value={isbn}
+                    onChange={this.handleChangeInputIsbn}
                 />
 
-                <Fieldset>
-                    <legend>Day(s) of the Week: </legend>
-                    {Object.keys(DAYS_OF_WEEK).map((dayInt, i) => (
-                        <React.Fragment
-                            key={DAYS_OF_WEEK[dayInt]}
-                        >
-                            <DayInput
-                                type="checkbox"
-                                id={DAYS_OF_WEEK[dayInt]}
-                                className="day-checkbox-input"
-                                defaultValue={daysOfWeek[dayInt] && daysOfWeek[dayInt] !== ""}
-                                data-day-index={dayInt}
-                                onChange={this.handleChangeDays}
-                                defaultChecked={daysOfWeek[dayInt] && daysOfWeek[dayInt] !== ""}
-                            />
-                            <Label
-                                htmlFor={DAYS_OF_WEEK[dayInt]}
-                            >
-                                { DAYS_OF_WEEK[dayInt] }
-                            </Label>
-                        </React.Fragment>
-                    ))}
-                </Fieldset>
-
-                <Label>Timeframe Note: </Label>
+                <Label>TITLE: </Label>
                 <InputText
                     type="text"
-                    value={timeframeNote}
-                    onChange={this.handleChangeInputTimeframe}
+                    value={title}
+                    onChange={this.handleChangeInputTitle}
                 />
 
-                <Label>Priority: </Label>
+                <Label>AUTHOR: </Label>
                 <InputText
-                    type="number"
-                    step="0.1"
-                    lang="en-US"
-                    min="0"
-                    max="1000"
-                    pattern="[0-9]+([,\.][0-9]+)?"
-                    value={priority}
-                    onChange={this.handleChangeInputPriority}
+                    type="text"
+                    value={author}
+                    onChange={this.handleChangeInputTimeAuthor}
                 />
 
-                <Label>Content: </Label>
+                <Label>PUBLICATION YEAR: </Label>
                 <InputText
-                    type="textarea"
-                    value={content}
-                    onChange={this.handleChangeInputContent}
+                    type="text"
+                    value={publication_year}
+                    onChange={this.handleChangeInputPublication_year}
+                />
+
+                <Label>COPIES: </Label>
+                <InputText
+                  type="number"
+                  step="0.1"
+                  lang="en-US"
+                  min="0"
+                  max="1000"
+                  pattern="[0-9]+([,\.][0-9]+)?"
+                  value={copies}
+                  onChange={this.handleChangeInputCopies}
+                />
+
+                <Label>COVER: </Label>
+                <InputText
+                  type="text"
+                  value={image_url_m}
+                  onChange={this.handleChangeInputImage_url_m}
+                />
+
+                <Label>PUBLISHER: </Label>
+                <InputText
+                  type="text"
+                  value={publisher}
+                  onChange={this.handleChangeInputPublisher}
+                />
+
+                <Label>AVAILABLE: </Label>
+                <InputText
+                  type="text"
+                  value={available}
+                  onChange={this.handleChangeInputAvailable}
                 />
 
                 <Button onClick={this.confirmUpdateBook}>Update Book</Button>

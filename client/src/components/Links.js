@@ -4,7 +4,14 @@ import styled from 'styled-components';
 
 import Logo from './Logo';
 
-const HomeWrapper = styled.div``;
+const HomeWrapper = styled.div`
+    width:60%;
+    display:flex;
+    justifyContent:space-between;
+    alignContent:center;
+    margin:8px; position:relative;
+`
+;
 
 const Collapse = styled.div.attrs({
     // className: 'collapse navbar-collapse',
@@ -20,13 +27,12 @@ const List = styled.div.attrs({
 })`
     @media screen and (max-width: 420px) {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         /* justify-content: flex-start; */
-        width: 100%;
     }
 `;
 
-const Book = styled.div.attrs({
+const Item = styled.div.attrs({
     // className: 'collapse navbar-collapse',
 })`
     @media screen and (max-width: 420px) {
@@ -35,12 +41,14 @@ const Book = styled.div.attrs({
 `;
 
 const homeStyles = {
-    marginLeft: `1em`
+    marginLeft: `1em`,
+    width:'100%',
+    display:'inline',
 };
 
 const logoStyles = {
-    height: '40px',
-    width: '40px',
+    height: '50px',
+    width: '50px',
 };
 
 class Links extends Component {
@@ -56,30 +64,36 @@ class Links extends Component {
                     >
                         Home
                     </Link>
+                    <Link
+                        to="/admin"
+                        className="navbar-brand"
+                        style={homeStyles}
+                    >
+                        Admin
+                    </Link>
+                    <Link
+                        to="/about"
+                        className="navbar-brand"
+                        style={homeStyles}
+                    >
+                        About Us
+                    </Link>
                 </HomeWrapper>
                 <Collapse>
                     <List>
-                        <Book>
+                        <Item>
                             <Link
                                 to="/books"
                                 className="nav-link"
                             >
-                                Books
+                                Book List
                             </Link>
-                        </Book>
-                        <Book>
-                            <Link
-                                to="/book/create"
-                                className="nav-link"
-                            >
-                                Create Book
-                            </Link>
-                        </Book>
-                        <Book>
+                        </Item>
+                        <Item>
                             <Link to="/books/react-table-v6" className="nav-link">
-                                Books (react-table-v6)
+                                Books Table (react-table-v6)
                             </Link>
-                        </Book>
+                        </Item>
                     </List>
                 </Collapse>
             </React.Fragment>

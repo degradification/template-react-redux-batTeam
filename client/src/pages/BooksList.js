@@ -19,7 +19,6 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
-
     @media screen and (max-width: 420px) {
         padding-left: 0.5em;
         padding-right: 0.5em;
@@ -78,7 +77,7 @@ class BooksTable extends Component {
     componentDidMount() {
         console.log("BooksList: props");
         console.log(this.props);
-        // if (((this.props.bookData || {}).books || []).length) return;
+        if (((this.props.bookData || {}).books || []).length) return;
 
         this.props.fetchAllBooks()
     }
@@ -99,7 +98,7 @@ class BooksTable extends Component {
             books,
             loaded,
             loading
-        } = this.props.bookData || {};
+        } = this.props.data || {};
         console.log(books);
 
         const columns = [
@@ -118,13 +117,13 @@ class BooksTable extends Component {
                 }
             },
             {
-                Header: 'Name',
-                accessor: 'name',
+                Header: 'TITLE',
+                accessor: 'title',
                 // filterable: true,
                 Cell: props => {
                     const { original } = props.cell.row;
                     return (
-                        <span data-name={original.name}>
+                        <span data-name={original.title}>
                             {props.value}
                         </span>
                     );
@@ -214,13 +213,14 @@ class BooksTable extends Component {
             <Wrapper>
                 <CssBaseline />
                 {(
-                    (books || []).length > 0
+                    (books || []).length < 0
                 ) ? (
                     <Table
                         data={books}
                         columns={columns}
                     />
                 ) : (
+                  console.log(books),
                     `No books to render... :(`
                 )}
             </Wrapper>

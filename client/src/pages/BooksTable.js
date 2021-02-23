@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import ReactTable from 'react-table-6';
 import * as actions from '../actions';
 import { DeleteButton } from '../components/buttons';
-
+import api from '../api'
 import styled from 'styled-components';
 
 import 'react-table-6/react-table.css';
@@ -16,32 +16,31 @@ const Wrapper = styled.div`
 
 class BooksList extends Component {
 
-    componentDidMount() {
-        console.log("BooksList: props");
-        console.log(this.props);
-        // if (((this.props.bookData || {}).books || []).length) return;
+  constructor(props){
+    super(props)
+      this.state={
+        books: [],
+        column: [],
+        loading:false,
+      }
+  }
 
-        this.props.fetchAllBooks()
-    }
+    componentDidMount = async () => {
+        this.setState({ loading:true})
 
-    handleRemoveBook = data => {
-        const bookId = data;
-
-        this.props.deleteSingleBook(bookId)
-            .then(resp => {
-                console.log("handleRemoveBook: resp");
-                console.log(resp);
-                this.props.fetchAllBooks();
-            });
-    }
+        await api.getAllBooks().then(books => {
+          this.setState({
+            books: books.bookData,
+            loading: false,
+          })
+        })
+      }
 
     render() {
         const {
             books,
-            loaded,
             loading
-        } = this.props.bookData || {};
-        console.log(books);
+        } = this.state
 
         const columns = [
             {
@@ -50,70 +49,83 @@ class BooksList extends Component {
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-book-id={props.original._id}>
+                        <span data-item-id={props.original._id}>
                             {props.original._id}
                         </span>
                     )
                 }
             },
             {
-                Header: 'Name',
-                accessor: 'name',
+                Header: 'ISBN',
+                accessor: 'isbn',
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-name={props.original.name}>
+                        <span data-isbn={props.original.isbn}>
                             {props.value}
                         </span>
-                    );
+                    )
                 }
             },
             {
-                Header: 'Day(s)',
-                accessor: 'daysOfWeek',
+                Header: 'TITLE',
+                accessor: 'title',
                 filterable: true,
                 Cell: props => {
-                    const { daysOfWeek } = props.original;
-                    let daysToDisplay = "";
-                    if (daysOfWeek && typeof daysOfWeek === "object") {
-                        for (const day in daysOfWeek) {
-                            daysToDisplay = daysToDisplay === "" ? daysOfWeek[day] : `${daysToDisplay}, ${daysOfWeek[day]}`;
-                        }
-
-                    }
                     return (
-                        <span
-                            data-daysofweek={daysOfWeek && JSON.stringify(daysOfWeek)}
-                            data-daysofweek-by-id={props.original._id}
-                        >
-                            {daysToDisplay || "-"}
+                        <span data-title={props.original.title}>
+                            {props.value}
                         </span>
-                    );
+                    )
                 }
             },
             {
-                Header: 'Timeframe',
-                accessor: 'timeframeNote',
+                Header: 'AUTHOR',
+                accessor: 'author',
                 Cell: props => {
                     return (
-                        <span data-timeframe={props.original.timeframeNote}>
-                            {props.value || "-"}
+                        <span data-author={props.original.author}>
+                            {props.value}
                         </span>
-                    );
-                },
+                    )
+                }
             },
             {
-                Header: 'Priority',
-                accessor: 'priority',
+                Header: 'PUBLICATION YEAR',
+                accessor: 'publication_year',
                 filterable: true,
                 Cell: props => {
                     return (
-                        <span data-priority={props.original.priority}>
+                        <span data-pubYear={props.original.publication_year}>
                             {props.value}
                         </span>
-                    );
-                },
+                    )
+                }
             },
+            {
+                Header: 'COPIES',
+                accessor: 'copies',
+                filterable: true,
+                Cell: props => {
+                    return (
+                        <span data-copies={props.original.copies}>
+                            {props.value || "unavailable"}
+                        </span>
+                    )
+                }
+            },
+            {
+            Header: 'COVER',
+            accessor: 'mage_url_m',
+            filterable: true,
+            Cell: props => {
+                return (
+                    <span data-cover={props.original.image_url_m}>
+                        {props.value}
+                    </span>
+                )
+            }
+        },
             {
                 Header: '',
                 accessor: '',
@@ -123,10 +135,10 @@ class BooksList extends Component {
                             data-update-id={props.original._id}
                             to={`/book/update/${props.original._id}`}
                         >
-                            Update Book
+                            Update Item
                         </Link>
-                    );
-                },
+                    )
+                }
             },
             {
                 Header: '',
@@ -139,39 +151,32 @@ class BooksList extends Component {
                                 onDelete={this.handleRemoveBook}
                             />
                         </span>
-                    );
-                },
+                    )
+                }
             },
-        ];
+        ]
+
+        let showTable = true
+        if(!books.length){
+          showTable=false
+        }
 
         return (
             <Wrapper>
-                {(
-                    (books || []).length > 0 // defeats the purpose of using `isLoading` prop?
-                ) ? (
-                        <ReactTable
-                            data={books}
-                            columns={columns}
-                            isLoading={(loaded && loading)}
-                            defaultPageSize={10}
-                            showPageSizeOptions={true}
-                            minRows={10}
-                        />
-                    ) : (
-                        `No books to render... :(`
-                    )}
+            {showTable && (
+                  <ReactTable
+                    data={books}
+                    columns={columns}
+                    isLoading={(loading)}
+                    defaultPageSize={10}
+                    showPageSizeOptions={true}
+                    minRows={10}
+                  />
+
+                )}
             </Wrapper>
-        );
+        )
     }
 
 }
-
-const mapStateToProps = state => {
-    return {
-      ...state
-    }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(BooksList);
+export default (BooksList)
